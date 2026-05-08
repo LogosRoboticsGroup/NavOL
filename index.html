@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="NavOL: Navigation Policy with Online Imitation Learning">
+  <meta name="description" content="An online imitation learning framework that fine-tunes a pre-trained navigation diffusion policy via massively parallel rollouts in IsaacLab, supervised by a privileged global planner.">
+  <meta name="keywords" content="visual navigation, imitation learning, DAgger, diffusion policy, online learning, IsaacLab, sim-to-real, robotics">
+  <meta name="author" content="Xiaofei Wei, Chun Gu, Li Zhang">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Fudan ZVG">
+  <meta property="og:title" content="NavOL: Navigation Policy with Online Imitation Learning">
+  <meta property="og:description" content="An online imitation learning framework that fine-tunes a pre-trained navigation diffusion policy via massively parallel rollouts in IsaacLab, supervised by a privileged global planner.">
+  <meta property="og:url" content="https://logosroboticsgroup.github.io/NavOL/">
+  <meta property="og:image" content="https://logosroboticsgroup.github.io/NavOL/static/images/teaser.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NavOL teaser figure">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NavOL: Navigation Policy with Online Imitation Learning">
+  <meta name="twitter:description" content="An online imitation learning framework for visual navigation.">
+  <meta name="twitter:image" content="https://logosroboticsgroup.github.io/NavOL/static/images/teaser.png">
+
+  <meta name="citation_title" content="NavOL: Navigation Policy with Online Imitation Learning">
+  <meta name="citation_author" content="Wei, Xiaofei">
+  <meta name="citation_author" content="Gu, Chun">
+  <meta name="citation_author" content="Zhang, Li">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="ICML 2026">
+  <meta name="citation_pdf_url" content="https://logosroboticsgroup.github.io/NavOL/static/pdfs/paper.pdf">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>NavOL: Navigation Policy with Online Imitation Learning</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "NavOL: Navigation Policy with Online Imitation Learning",
+    "description": "An online imitation learning framework that fine-tunes a pre-trained navigation diffusion policy via massively parallel rollouts in IsaacLab, supervised by a privileged global planner.",
+    "author": [
+      { "@type": "Person", "name": "Xiaofei Wei", "affiliation": { "@type": "Organization", "name": "Fudan University" } },
+      { "@type": "Person", "name": "Chun Gu", "affiliation": { "@type": "Organization", "name": "Fudan University" } },
+      { "@type": "Person", "name": "Li Zhang", "affiliation": { "@type": "Organization", "name": "Fudan University" } }
+    ],
+    "datePublished": "2026-01-01",
+    "publisher": { "@type": "Organization", "name": "ICML 2026" },
+    "url": "https://logosroboticsgroup.github.io/NavOL/",
+    "image": "https://logosroboticsgroup.github.io/NavOL/static/images/teaser.png",
+    "keywords": ["visual navigation", "imitation learning", "diffusion policy", "robotics"],
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  }
+  </script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">NavOL: Navigation Policy with<br>Online Imitation Learning</h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="#" target="_blank">Xiaofei Wei</a><sup>1,2,*</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Chun Gu</a><sup>1,2,*</sup>,</span>
+              <span class="author-block">
+                <a href="https://lzrobots.github.io/" target="_blank">Li Zhang</a><sup>1,&#9993;</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>School of Data Science, Fudan University</span>&nbsp;&nbsp;
+              <span class="author-block"><sup>2</sup>Shanghai Innovation Institute</span>
+              <br>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Equal contribution.&nbsp;&nbsp;<sup>&#9993;</sup>Corresponding author.</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="javascript:void(0)" onclick="return false;"
+                    class="external-link button is-normal is-rounded is-dark"
+                    title="Paper PDF will be available soon"
+                    style="cursor: not-allowed; opacity: 0.65;">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper (soon)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv (soon)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://github.com/LogosRoboticsGroup/NavOL" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code (coming soon)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="#real-world" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-video"></i></span>
+                    <span>Real-world Demo</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/teaser.png" alt="NavOL teaser: online imitation learning loop and benchmark performance" style="width:100%; border-radius:8px;" loading="eager">
+        <h2 class="subtitle has-text-centered">
+          <strong>NavOL</strong> is an online imitation learning framework. <em>(Left)</em> The agent rolls out in IsaacLab while a privileged global planner provides ground-truth waypoint supervision; the diffusion policy is updated on this stream of policy-explored, expert-corrected data. <em>(Right)</em> NavOL achieves the best success rate (SR) and SPL on a 3D-Front-based indoor navigation benchmark.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Learning robust navigation policies remains a core challenge in robotics. Offline imitation learning suffers from <em>distribution shift</em> and <em>compounding errors</em> at rollout, while reinforcement learning requires careful reward engineering and learns inefficiently. We propose <strong>NavOL</strong>, an online imitation learning paradigm that interacts with a simulator and updates itself using expert demonstrations gathered online.
+            </p>
+            <p>
+              Built upon a pretrained navigation diffusion policy that maps local RGB-D observations to future waypoints, NavOL trains in a rollout&ndash;update loop: during <strong>rollout</strong>, the policy acts in the simulator and queries a global planner with privileged access to the scene for the optimal path segment as ground-truth trajectory labels; during <strong>update</strong>, the policy is trained on the online-collected observation&ndash;trajectory pairs. This online imitation loop removes the need for reward design, improves learning efficiency, and mitigates distribution shift by training on the policy&rsquo;s own explored rollouts.
+            </p>
+            <p>
+              Built on IsaacLab with fast, high-fidelity parallel rendering and domain randomization of camera pose and start-goal pairs, our system scales across <strong>50 scenes on 8 RTX 4090 GPUs, collecting over 2,000 new trajectories per hour</strong>, each averaging more than 400 steps. We also introduce an indoor visual navigation benchmark with predefined start and goal positions for zero-shot generalization. Extensive evaluations on the NavDP benchmark and our proposed benchmark, as well as carefully designed real-world experiments, demonstrate consistent performance gains of NavOL in online imitation learning.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Method</h2>
+          <div class="content has-text-justified">
+            <p style="text-align:center;">
+              <img src="static/images/pipeline.png" alt="NavOL training pipeline" style="width:100%; border-radius:8px;" loading="lazy">
+            </p>
+            <p>
+              <strong>The NavOL rollout&ndash;update loop.</strong> The policy is initialized from a pretrained navigation diffusion model (NavDP) that maps RGB-D observations and a goal embedding to future waypoint trajectories. At each simulator step, a privileged <em>global planner</em> computes the optimal path segment from the agent&rsquo;s current pose to the goal, serving as a per-step trajectory label. Rollout data are aggregated into an online buffer and used to update the diffusion policy with the standard DDPM denoising objective. The loop trains on the policy&rsquo;s own visited state distribution, fundamentally eliminating compounding errors in offline imitation learning.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero is-small is-light" id="benchmark">
+    <div class="hero-body">
+      <div class="container is-max-desktop has-text-centered">
+        <h2 class="title is-3">A New Indoor Navigation Benchmark</h2>
+        <img src="static/images/benchmark.png" alt="Navigation benchmark scenes" style="width:100%; border-radius:8px;" loading="lazy">
+        <p class="content has-text-justified" style="margin-top:1em;">
+          We curate a visual indoor navigation benchmark on top of the 3D-Front dataset with predefined start and goal positions, enabling reproducible zero-shot evaluation across <em>image-goal</em>, <em>point-goal</em>, and <em>no-goal</em> settings. The benchmark is designed to stress test long-horizon navigation under partial observation and cluttered layouts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+      <div class="content has-text-centered">
+        <p style="text-align:center;">
+          <img src="static/images/exp_vis_compare.png" alt="Trajectory comparison: NavOL vs baselines" style="width:100%; border-radius:8px;" loading="lazy">
+        </p>
+        <p class="has-text-justified">
+          Compared to NavDP and DAgger-Diffusion baselines, NavOL produces noticeably smoother and more obstacle-aware trajectories in cluttered indoor scenes &mdash; a direct consequence of training on the policy&rsquo;s own visited state distribution rather than pre-recorded expert demonstrations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">More Visualizations</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/exp_vis.png" alt="Visualization: in-domain trajectories" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">In-domain trajectories on 3D-Front scenes.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/supp_realworld.png" alt="Visualization: real-world trajectories" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">Real-world deployment on a wheeled robot.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/supp_traj.png" alt="Visualization: planned vs executed trajectories" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">Comparison of planned vs. executed trajectories.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/exp_real.png" alt="Real-world quantitative results" loading="lazy"/>
+            <h2 class="subtitle has-text-centered">Real-world quantitative results across three scenes.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero is-small is-light" id="real-world">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Real-world Demonstrations</h2>
+        <p class="content has-text-centered" style="max-width:760px; margin: 0 auto 1.2em;">
+          We deploy NavOL <em>zero-shot</em> on a wheeled robot in three real-world indoor scenes, with no real-world fine-tuning. The policy generalizes from purely simulated training to cluttered apartments, an office, and a corridor.
+        </p>
+        <div id="real-world-carousel" class="carousel results-carousel">
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene1/IMG_5620.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 1 &mdash; trial 1</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene1/IMG_5623.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 1 &mdash; trial 2</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene1/IMG_5632.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 1 &mdash; trial 3</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene2/IMG_5647.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 2 &mdash; trial 1</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene2/IMG_5655.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 2 &mdash; trial 2</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene2/IMG_5658.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 2 &mdash; trial 3</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene3/IMG_5673.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 3 &mdash; trial 1</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene3/IMG_5674.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 3 &mdash; trial 2</h2>
+          </div>
+          <div class="item">
+            <video controls muted loop playsinline preload="metadata">
+              <source src="static/videos/scene3/IMG_5675.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Scene 3 &mdash; trial 3</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop has-text-centered">
+      <h2 class="title is-3">Real-world Captures</h2>
+      <div class="columns is-multiline is-centered">
+        <div class="column is-half">
+          <img src="static/images/real_photos/IMG_5669.jpg" alt="Robot in scene 1" style="width:100%; border-radius:8px;" loading="lazy">
+        </div>
+        <div class="column is-half">
+          <img src="static/images/real_photos/IMG_5678.jpg" alt="Robot in scene 2" style="width:100%; border-radius:8px;" loading="lazy">
+        </div>
+        <div class="column is-half">
+          <img src="static/images/real_photos/IMG_5680.jpg" alt="Robot in scene 3" style="width:100%; border-radius:8px;" loading="lazy">
+        </div>
+        <div class="column is-half">
+          <img src="static/images/real_photos/IMG_5682.jpg" alt="Robot in scene 3 (alt view)" style="width:100%; border-radius:8px;" loading="lazy">
+        </div>
+      </div>
+      <p class="content has-text-centered" style="color:#666;">Wheeled robot used in our real-world experiments. RGB-D streamed from an onboard depth camera.</p>
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{wei2026navol,
+  title     = {{NavOL}: Navigation Policy with Online Imitation Learning},
+  author    = {Wei, Xiaofei and Gu, Chun and Zhang, Li},
+  booktitle = {Proceedings of the International Conference on Machine Learning (ICML)},
+  year      = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  </main>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>, adapted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website; we just ask that you link back to this page in the footer.<br>
+              This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
