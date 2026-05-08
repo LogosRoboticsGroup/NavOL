@@ -9,7 +9,7 @@
 **NavOL: Navigation Policy with Online Imitation Learning**  
 Xiaofei Wei\*, Chun Gu\*, Li Zhang  
 *School of Data Science, Fudan University · Shanghai Innovation Institute*  
-ICML 2026 *(under review)*
+**ICML 2026 (Accepted)**
 
 ## TL;DR
 NavOL fine-tunes a pre-trained navigation diffusion policy (NavDP) via massively parallel rollouts in IsaacLab, supervised online by a privileged global path planner. The rollout&ndash;update loop trains on the policy's own visited state distribution, removing the need for reward design and mitigating distribution shift in offline imitation learning. With **8 RTX 4090 GPUs**, the system collects more than **2,000 high-quality trajectories per hour** across **50 indoor 3D scenes**.
