@@ -1,7 +1,8 @@
 # 🧭 NavOL 中文使用说明
 
+[![arXiv](https://img.shields.io/badge/arXiv-2605.11762-b31b1b.svg)](https://arxiv.org/abs/2605.11762)
+[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-模型与数据-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
 [![论文](https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg)](https://openreview.net/forum?id=Uuh2Sk0mh0)
-[![模型与数据](https://img.shields.io/badge/🤗%20Hugging%20Face-Models%20%26%20Data-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
 [![许可证](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](../LICENSE)
 
 本仓库是 ICML 2026 论文 **NavOL: Navigation Policy with Online Imitation
@@ -9,7 +10,8 @@ Learning** 的官方实现。
 
 NavOL 是一个在 Isaac Lab 中通过在线模仿学习训练的具身点目标导航策略。训练阶段由具有地图权限的 NavMesh 专家提供轨迹级监督；部署阶段只使用 RGB-D 观测和目标，不需要地图或专家规划器。本仓库把数据准备、策略训练和 benchmark 评测拆分为三个清晰的公开工作流。
 
-**[论文](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
+**[arXiv](https://arxiv.org/abs/2605.11762) ·
+[OpenReview](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
 [模型与数据](https://huggingface.co/datasets/WAboutme/NavOL) ·
 [English README](../README.md)**
 

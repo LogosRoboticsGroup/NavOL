@@ -1,7 +1,8 @@
 # 🧭 NavOL
 
+[![arXiv](https://img.shields.io/badge/arXiv-2605.11762-b31b1b.svg)](https://arxiv.org/abs/2605.11762)
+[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Models%20%26%20Data-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
 [![Paper](https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg)](https://openreview.net/forum?id=Uuh2Sk0mh0)
-[![Models and data](https://img.shields.io/badge/🤗%20Hugging%20Face-Models%20%26%20Data-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg)](source/navol/setup.py)
 
@@ -13,7 +14,8 @@ learning in Isaac Lab. A privileged NavMesh expert supplies trajectory-level
 supervision during simulation training; deployment uses only RGB-D observations
 and the goal, without a map or expert planner.
 
-**[Paper](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
+**[arXiv](https://arxiv.org/abs/2605.11762) ·
+[OpenReview](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
 [Models and data](https://huggingface.co/datasets/WAboutme/NavOL) ·
 [中文说明](docs/README_zh-CN.md)**
 
