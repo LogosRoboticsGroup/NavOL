@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "NavOL: inspect canonical training command",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/train/train_navol.py",
+      "console": "integratedTerminal",
+      "args": ["--dry-run"],
+      "justMyCode": true
+    },
+    {
+      "name": "NavOL: inspect benchmark commands",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/eval/evaluate_benchmark.py",
+      "console": "integratedTerminal",
+      "args": ["--dry-run"],
+      "justMyCode": true
+    },
+    {
+      "name": "NavOL: release check",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/check_release.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
