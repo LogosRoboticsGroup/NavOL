@@ -1,80 +1,59 @@
-# Academic Project Page Template
+# NavOL project website
 
-> **Update (September 2025)**: This template has been modernized with better design, SEO, and mobile support. For the original version, see the [original-version branch](https://github.com/eliahuhorwitz/Academic-project-page-template/tree/original-version).
+This repository contains the static project page for **NavOL: Navigation Policy
+with Online Imitation Learning**, accepted at ICML 2026.
 
-A clean, responsive template for academic project pages.
+- Project page: https://logosroboticsgroup.github.io/NavOL/
+- Paper: https://arxiv.org/abs/2605.11762
+- Code: https://github.com/WAboutMe/NavOL
+- Models and data: https://huggingface.co/datasets/WAboutme/NavOL
 
+## Structure
 
-Example project pages built using this template are:
-- https://horwitz.ai/probex
-- https://vision.huji.ac.il/probegen
-- https://horwitz.ai/mother
-- https://horwitz.ai/spectral_detuning
-- https://vision.huji.ac.il/ladeda
-- https://vision.huji.ac.il/dsire
-- https://horwitz.ai/podd
-- https://dreamix-video-editing.github.io
-- https://horwitz.ai/conffusion
-- https://horwitz.ai/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad
-- https://vision.huji.ac.il/deepsim
+- `index.html`: page content, metadata, and project links
+- `static/css/index.css`: NavOL-specific visual design and responsive layout
+- `static/js/index.js`: carousel setup, video behavior, citation copying, and
+  scroll controls
+- `static/images/`: paper figures and real-world photographs
+- `static/videos/`: selected real-world demonstrations
+- `static/pdfs/`: locally hosted document assets
 
+## Local preview
 
+From the repository root, start a static server:
 
-## Start using the template
-To start using the template click on `Use this Template`.
+```bash
+python -m http.server 8000
+```
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+Then open http://localhost:8000/ in a browser. A server preview is preferred to
+opening `index.html` directly because it matches GitHub Pages URL behavior more
+closely.
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+## Content updates
 
-## What's New
+Keep paper, code, and asset links synchronized with the public releases. Paper
+figures should be exported at web resolution before being added to
+`static/images/`. Large videos should be compressed for web playback and use
+`preload="metadata"` so the landing page does not eagerly download every file.
 
-- Modern, clean design with better mobile support
-- Improved SEO with proper meta tags and structured data
-- Performance improvements (lazy loading, optimized assets)
-- More Works dropdown
-- Copy button for BibTeX citations
-- Better accessibility
+Before deployment, check:
 
-## Components
+1. every local `href` and `src` resolves;
+2. desktop and mobile layouts have no horizontal overflow;
+3. the browser console has no JavaScript errors;
+4. paper, code, and Hugging Face links point to the intended public resources;
+5. the BibTeX block matches the current paper metadata.
 
-- Teaser video
-- Image carousel
-- YouTube video embedding
-- Video carousel
-- PDF poster viewer
-- BibTeX citation
+## Deployment
 
-## Customization
+The site is served by GitHub Pages from the `gh-pages` branch. Pushing a tested
+commit to that branch publishes the new version.
 
-The HTML file has TODO comments showing what to replace:
+## Attribution and license
 
-- Paper title, authors, institution, conference
-- Links (arXiv, GitHub, etc.)
-- Abstract and descriptions  
-- Videos, images, and PDFs
-- Related works in the dropdown
-- Meta tags for SEO and social sharing
-
-### Meta Tags
-The template includes meta tags for better search engine visibility and social media sharing. These appear in the `<head>` section and help with:
-- Google Scholar indexing
-- Social media previews (Twitter, Facebook, LinkedIn)
-- Search engine optimization
-
-Create a 1200x630px social preview image at `static/images/social_preview.png`.
-
-## Tips
-
-- Compress images with [TinyPNG](https://tinypng.com)
-- Use YouTube for large videos (>10MB)  
-- Replace the favicon in `static/images/`
-- Works with GitHub Pages
-
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
-
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+The page builds on the
+[Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template),
+which was adapted from the [Nerfies](https://nerfies.github.io/) project page.
+Website content is licensed under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
