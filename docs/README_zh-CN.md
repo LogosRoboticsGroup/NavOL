@@ -5,15 +5,13 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2605.11762"><strong>arXiv</strong></a>
   <strong>·</strong>
-  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><strong>OpenReview</strong></a>
-  <strong>·</strong>
   <a href="https://huggingface.co/datasets/WAboutme/NavOL"><strong>模型与数据</strong></a>
   <strong>·</strong>
   <a href="https://github.com/WAboutMe/NavOL/blob/main/README.md"><strong>English README</strong></a>
 </p>
 
 <p align="center">
-  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><img src="https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg" alt="ICML 2026 OpenReview"></a>
+  <a href="https://arxiv.org/abs/2605.11762"><img src="https://img.shields.io/badge/ICML-2026-8c1b13.svg" alt="ICML 2026"></a>
   <a href="../LICENSE"><img src="https://img.shields.io/badge/License-BSD--3--Clause-blue.svg" alt="BSD 3-Clause 许可证"></a>
   <a href="../source/navol/setup.py"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg" alt="Python 3.10 和 3.11"></a>
 </p>
@@ -318,7 +316,7 @@ python scripts/check_release.py
   author    = {Xiaofei Wei and Chun Gu and Li Zhang},
   booktitle = {Forty-third International Conference on Machine Learning},
   year      = {2026},
-  url       = {https://openreview.net/forum?id=Uuh2Sk0mh0}
+  url       = {https://arxiv.org/abs/2605.11762}
 }
 ```
 
