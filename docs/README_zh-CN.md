@@ -1,19 +1,34 @@
-# 🧭 NavOL 中文使用说明
+<h1 align="center">NavOL: Navigation Policy with Online Imitation Learning</h1>
 
-[![arXiv](https://img.shields.io/badge/arXiv-2605.11762-b31b1b.svg)](https://arxiv.org/abs/2605.11762)
-[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-模型与数据-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
-[![论文](https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg)](https://openreview.net/forum?id=Uuh2Sk0mh0)
-[![许可证](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](../LICENSE)
+<p align="center"><strong>中文使用说明</strong></p>
 
-本仓库是 ICML 2026 论文 **NavOL: Navigation Policy with Online Imitation
-Learning** 的官方实现。
+<p align="center">
+  <a href="https://arxiv.org/abs/2605.11762"><strong>arXiv</strong></a>
+  <strong>·</strong>
+  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><strong>OpenReview</strong></a>
+  <strong>·</strong>
+  <a href="https://huggingface.co/datasets/WAboutme/NavOL"><strong>模型与数据</strong></a>
+  <strong>·</strong>
+  <a href="https://github.com/WAboutMe/NavOL/blob/main/README.md"><strong>English README</strong></a>
+</p>
+
+<p align="center">
+  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><img src="https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg" alt="ICML 2026 OpenReview"></a>
+  <a href="../LICENSE"><img src="https://img.shields.io/badge/License-BSD--3--Clause-blue.svg" alt="BSD 3-Clause 许可证"></a>
+  <a href="../source/navol/setup.py"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg" alt="Python 3.10 和 3.11"></a>
+</p>
+
+<p align="center"><strong>ICML 2026 论文官方实现。</strong></p>
+
+<p align="center">
+  <img src="assets/teaser.png" alt="NavOL 在线模仿学习、真实场景部署与 benchmark 结果概览" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://logosroboticsgroup.github.io/NavOL/"><strong>项目主页与演示视频</strong></a>
+</p>
 
 NavOL 是一个在 Isaac Lab 中通过在线模仿学习训练的具身点目标导航策略。训练阶段由具有地图权限的 NavMesh 专家提供轨迹级监督；部署阶段只使用 RGB-D 观测和目标，不需要地图或专家规划器。本仓库把数据准备、策略训练和 benchmark 评测拆分为三个清晰的公开工作流。
-
-**[arXiv](https://arxiv.org/abs/2605.11762) ·
-[OpenReview](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
-[模型与数据](https://huggingface.co/datasets/WAboutme/NavOL) ·
-[English README](../README.md)**
 
 ## 核心特点
 
@@ -25,17 +40,13 @@ NavOL 是一个在 Isaac Lab 中通过在线模仿学习训练的具身点目标
 
 ## 方法概览
 
-```mermaid
-flowchart LR
-    O["RGB-D 历史 + point goal"] --> G["扩散轨迹生成器"]
-    G --> C["16 条候选 waypoint 轨迹"]
-    C --> V["与目标无关的安全 critic"]
-    V --> P["最高分轨迹"]
-    P --> M["MPC + 差分驱动控制器"]
-    N["仅训练阶段使用的 NavMesh 专家"] --> L["在线轨迹与安全标签"]
-    L --> G
-    L --> V
-```
+<p align="center">
+  <img src="assets/pipeline.png" alt="NavOL rollout-update 训练管线" width="100%">
+</p>
+
+NavOL 在模拟器 rollout 与策略更新两个阶段之间交替运行。rollout 阶段中，策略根据 RGB-D 观测和目标生成轨迹，并由 MPC 与底层控制器执行；具有环境全局信息的规划器同时提供专家轨迹和安全分数，用于后续更新轨迹生成网络与 critic。
+
+专家规划分支仅在模拟器训练期间使用；发布的策略在部署时不需要 NavMesh。
 
 > **运行环境说明：**不依赖 Isaac Sim 的单元测试、发布检查和 `--dry-run` 可以在普通 Python 环境运行。真正的训练和 benchmark 评测需要 Linux、CUDA GPU、Isaac Sim 4.5、Isaac Lab 2.1 和 Habitat-Sim。本仓库的 GitHub Actions 不运行模拟器端到端测试。
 

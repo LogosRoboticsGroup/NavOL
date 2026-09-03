@@ -1,23 +1,35 @@
-# 🧭 NavOL
+<h1 align="center">NavOL: Navigation Policy with Online Imitation Learning</h1>
 
-[![arXiv](https://img.shields.io/badge/arXiv-2605.11762-b31b1b.svg)](https://arxiv.org/abs/2605.11762)
-[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Models%20%26%20Data-ffd21e.svg)](https://huggingface.co/datasets/WAboutme/NavOL)
-[![Paper](https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg)](https://openreview.net/forum?id=Uuh2Sk0mh0)
-[![License](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg)](source/navol/setup.py)
+<p align="center">
+  <a href="https://arxiv.org/abs/2605.11762"><strong>arXiv</strong></a>
+  <strong>·</strong>
+  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><strong>OpenReview</strong></a>
+  <strong>·</strong>
+  <a href="https://huggingface.co/datasets/WAboutme/NavOL"><strong>Models and data</strong></a>
+  <strong>·</strong>
+  <a href="https://github.com/WAboutMe/NavOL/blob/main/docs/README_zh-CN.md"><strong>中文说明</strong></a>
+</p>
 
-Official implementation of **NavOL: Navigation Policy with Online Imitation
-Learning**, published at ICML 2026.
+<p align="center">
+  <a href="https://openreview.net/forum?id=Uuh2Sk0mh0"><img src="https://img.shields.io/badge/ICML%202026-OpenReview-8c1b13.svg" alt="ICML 2026 OpenReview"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSD--3--Clause-blue.svg" alt="BSD 3-Clause License"></a>
+  <a href="source/navol/setup.py"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg" alt="Python 3.10 and 3.11"></a>
+</p>
+
+<p align="center"><strong>Official implementation published at ICML 2026.</strong></p>
+
+<p align="center">
+  <img src="docs/assets/teaser.png" alt="NavOL teaser showing online imitation learning, real-world deployment, and benchmark results" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://logosroboticsgroup.github.io/NavOL/"><strong>Project page and videos</strong></a>
+</p>
 
 NavOL trains an embodied point-goal navigation policy through online imitation
 learning in Isaac Lab. A privileged NavMesh expert supplies trajectory-level
 supervision during simulation training; deployment uses only RGB-D observations
 and the goal, without a map or expert planner.
-
-**[arXiv](https://arxiv.org/abs/2605.11762) ·
-[OpenReview](https://openreview.net/forum?id=Uuh2Sk0mh0) ·
-[Models and data](https://huggingface.co/datasets/WAboutme/NavOL) ·
-[中文说明](docs/README_zh-CN.md)**
 
 ## ✨ Highlights
 
@@ -35,17 +47,15 @@ and the goal, without a map or expert planner.
 
 ## 🧭 Method at a glance
 
-```mermaid
-flowchart LR
-    O["RGB-D history + point goal"] --> G["Diffusion trajectory generator"]
-    G --> C["16 candidate waypoint sequences"]
-    C --> V["Goal-agnostic safety critic"]
-    V --> P["Top-ranked trajectory"]
-    P --> M["MPC + differential-drive controller"]
-    N["NavMesh expert during training only"] --> L["Online trajectory and safety labels"]
-    L --> G
-    L --> V
-```
+<p align="center">
+  <img src="docs/assets/pipeline.png" alt="NavOL rollout-update training pipeline" width="100%">
+</p>
+
+The NavOL pipeline alternates between simulator rollout and policy update
+phases. During rollout, the policy maps RGB-D observations and the goal to a
+trajectory tracked by MPC and the low-level controller. A privileged global
+planner supplies expert trajectories and safety scores for the subsequent
+trajectory-generation and critic updates.
 
 The expert-planning branch is used only for simulator training. The released
 policy does not require a NavMesh at deployment time.

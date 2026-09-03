@@ -1,4 +1,5 @@
-from contextlib import chdir
+from contextlib import contextmanager
+import os
 import runpy
 import shutil
 import subprocess
@@ -13,6 +14,16 @@ from unittest.mock import patch
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 EXTENSION_ROOT = REPOSITORY_ROOT / "source" / "navol"
+
+
+@contextmanager
+def change_directory(path):
+    previous_directory = Path.cwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(previous_directory)
 
 
 class PackageMetadataTests(unittest.TestCase):
@@ -48,7 +59,9 @@ class PackageMetadataTests(unittest.TestCase):
         def capture_setup(**kwargs):
             captured.update(kwargs)
 
-        with chdir(EXTENSION_ROOT), patch("setuptools.setup", side_effect=capture_setup):
+        with change_directory(EXTENSION_ROOT), patch(
+            "setuptools.setup", side_effect=capture_setup
+        ):
             runpy.run_path(str(EXTENSION_ROOT / "setup.py"), run_name="__main__")
 
         packages = set(captured["packages"])
@@ -69,7 +82,9 @@ class PackageMetadataTests(unittest.TestCase):
         def capture_setup(**kwargs):
             captured.update(kwargs)
 
-        with chdir(EXTENSION_ROOT), patch("setuptools.setup", side_effect=capture_setup):
+        with change_directory(EXTENSION_ROOT), patch(
+            "setuptools.setup", side_effect=capture_setup
+        ):
             runpy.run_path(str(EXTENSION_ROOT / "setup.py"), run_name="__main__")
 
         dependency_names = {
@@ -96,7 +111,9 @@ class PackageMetadataTests(unittest.TestCase):
         def capture_setup(**kwargs):
             captured.update(kwargs)
 
-        with chdir(EXTENSION_ROOT), patch("setuptools.setup", side_effect=capture_setup):
+        with change_directory(EXTENSION_ROOT), patch(
+            "setuptools.setup", side_effect=capture_setup
+        ):
             runpy.run_path(str(EXTENSION_ROOT / "setup.py"), run_name="__main__")
 
         self.assertEqual(captured["url"], "https://github.com/WAboutMe/NavOL")

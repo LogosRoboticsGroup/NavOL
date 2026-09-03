@@ -70,6 +70,8 @@ source/navol/navol/tasks/manager_based/navdp/agent
 *.png
 *.mp4
 *.zip
+!/docs/assets/
+!/docs/assets/*.png
 source/scene_data*
 source/scene*
 debug/
