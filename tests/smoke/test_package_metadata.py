@@ -5,11 +5,15 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import tomllib
 import unittest
 import zipfile
 from pathlib import Path
 from unittest.mock import patch
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.10
+    import tomli as tomllib
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
