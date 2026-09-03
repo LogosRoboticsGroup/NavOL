@@ -16,7 +16,7 @@
   <a href="../source/navol/setup.py"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg" alt="Python 3.10 和 3.11"></a>
 </p>
 
-<p align="center"><strong>ICML 2026 论文官方实现。</strong></p>
+<h3 align="center">🏆 ICML 2026 录用</h3>
 
 <p align="center">
   <img src="assets/teaser.png" alt="NavOL 在线模仿学习、真实场景部署与 benchmark 结果概览" width="100%">

@@ -14,7 +14,7 @@
   <a href="source/navol/setup.py"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776ab.svg" alt="Python 3.10 and 3.11"></a>
 </p>
 
-<p align="center"><strong>Official implementation published at ICML 2026.</strong></p>
+<h3 align="center">🏆 Accepted at ICML 2026</h3>
 
 <p align="center">
   <img src="docs/assets/teaser.png" alt="NavOL teaser showing online imitation learning, real-world deployment, and benchmark results" width="100%">
